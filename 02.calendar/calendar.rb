@@ -1,7 +1,6 @@
 require 'date'
 require 'optparse'
 
-# コマンドラインでparseする
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: ruby calendar.rb [options]"
@@ -15,32 +14,21 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-# 今の日付を取る
 current_date = Date.today
 year = options[:year] || current_date.year
 month = options[:month] || current_date.month
 
-# date enumeratorを作る
 date_range = Date.new(year, month, 1)..Date.new(year, month, -1)
-dates_enum = date_range.to_enum
 
-# カレンダーを表示する
-puts "\n#{Date::MONTHNAMES[month]} #{year}".center(20)
+puts current_date.strftime("%-m月 %Y").center(20)
 puts "日 月 火 水 木 金 土"
 
-# 最初の日に計算する
-initial_offset = dates_enum.peek.wday
+initial_offset = date_range.first.wday
 
-# 見やすいのため
 print "   " * initial_offset
 
-# １ヶ月分表示する
-dates_enum.each do |date|
+date_range.each do |date|
   print date.day.to_s.rjust(2) + " "
 
-  # 土曜日になったら新しいラインを作る
-  puts if date.saturday?
+  puts if date.wday == 6
 end
-
-puts "\n"
-
