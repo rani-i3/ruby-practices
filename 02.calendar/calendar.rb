@@ -20,7 +20,8 @@ month = options[:month] || current_date.month
 
 date_range = Date.new(year, month, 1)..Date.new(year, month, -1)
 
-puts current_date.strftime("%-m月 %Y").center(20)
+calendar_title = "#{month}月 #{year}"
+puts calendar_title.center(20)
 puts "日 月 火 水 木 金 土"
 
 initial_offset = date_range.first.wday
