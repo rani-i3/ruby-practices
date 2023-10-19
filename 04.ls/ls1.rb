@@ -12,20 +12,18 @@ def print_files_in_columns(columns = 3)
   max_length = file_list.map { |file| file.length }.max || 0
   column_width = (max_length + 2)
   rows = (file_list.length.to_f / columns).ceil
-  column_arrays = Array.new(columns) { [] }
+  column_arrays = Array.new(rows){[]}
 
   file_list.each_with_index do |file, index|
-    column_arrays[index % columns] << file
+    column_arrays[index % rows] << file
   end
 
   column_arrays.each do |row|
-    columns.times do |col|
-      print row[col]&.ljust(column_width)
+    row.each do |col|
+      print col&.ljust(column_width)
     end
     puts
   end
 end
-
-file_list = list_files
 
 print_files_in_columns
